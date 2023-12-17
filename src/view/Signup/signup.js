@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {lBg} from '../../assets/img';
-import axios from 'axios';
+import axios from '../../API/axios';
 
 const Signup = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -17,7 +17,6 @@ const Signup = ({navigation}) => {
   const [uname, setUname] = useState('');
   const [pass, setPass] = useState('');
 
-  const baseUrl = 'http://10.0.2.2:8080/auth/api/register';
   const btnSubmit = () => {
     console.log('test', uname);
     console.log('test', nama);
@@ -25,7 +24,7 @@ const Signup = ({navigation}) => {
     console.log('test', pass);
 
     axios
-      .post(baseUrl, {
+      .post('/auth/api/register', {
         name: nama,
         username: uname,
         email: email,

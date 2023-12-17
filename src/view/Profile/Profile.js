@@ -2,7 +2,7 @@ import {Image, Pressable, Text, View, StyleSheet} from 'react-native';
 import React, {Component} from 'react';
 import {iProfile} from '../../assets/img';
 import {UserConsumer} from '../../context/context';
-import axios from 'axios';
+import axios from '../../API/axios';
 
 const Profile = ({navigation}) => {
   const optionContext = UserConsumer();
@@ -12,7 +12,7 @@ const Profile = ({navigation}) => {
   console.log("🚀 ~ file: Profile.js:10 ~ Profile ~ id:", id)
 
   const btnLogout = () =>{
-    axios.delete('http://10.0.2.2:8080/auth/api/logout',
+    axios.delete('/auth/api/logout',
       {
         headers:{
           Authorization: `Bearer ${token}`
@@ -30,12 +30,12 @@ const Profile = ({navigation}) => {
   }
   return (
     <View style={styles.app}>
-      <Image source={iProfile} style={styles.imgProfile} />
-      <Text style={styles.labelProfile}>{username}</Text>
+        <Image source={iProfile} style={styles.imgProfile} />
+        <Text style={styles.labelProfile}>{username}</Text>
 
-      <Pressable style={styles.btnEdit}>
+      {/* <Pressable style={styles.btnEdit}>
         <Text style={styles.labelEdit}>Edit Profile</Text>
-      </Pressable>
+      </Pressable> */}
       <Pressable
         style={styles.btnLogout}
         onPress={() => btnLogout()}>
@@ -47,12 +47,15 @@ const Profile = ({navigation}) => {
 
 const styles = StyleSheet.create({
   app: {
+    display: 'flex',
     alignItems: 'center',
-    justifyContent: 'c',
+    justifyContent: 'center',
+    flexDirection: 'column'
   },
   imgProfile: {
     width: '50%',
     resizeMode: 'contain',
+    marginBottom: -100
   },
   conImg: {
     height: '30%',
@@ -61,6 +64,7 @@ const styles = StyleSheet.create({
   labelProfile: {
     fontSize: 24,
     color: '#000',
+    marginBottom: 15
   },
   btnEdit: {
     backgroundColor: '#45B3E6',
@@ -84,6 +88,10 @@ const styles = StyleSheet.create({
   labelEdit: {
     color: '#fff',
   },
+  conProfile:{
+    width: '80%',
+    height: '70%',
+  }
 });
 
 export default Profile;

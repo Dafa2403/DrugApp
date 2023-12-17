@@ -1,7 +1,7 @@
 import {View, Text, Image, ScrollView, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {UserConsumer} from '../../context/context';
-import axios from 'axios';
+import axios from '../../API/axios';
 
 const Detail = ({navigation}) => {
   const [title, setTitle] = useState('');
@@ -10,9 +10,8 @@ const Detail = ({navigation}) => {
   const optionContext = UserConsumer();
   const {option} = optionContext;
   const arr = [];
-  const baseUrl = 'http://10.0.2.2:8080/drugs/' + option;
   useEffect(() => {
-    axios.get(baseUrl).then(res => {
+    axios.get(`/drugs/${option}`).then(res => {
       arr.push(...res.data);
       for (let i = 0; i < arr.length; i++) {
         const element = arr[i];

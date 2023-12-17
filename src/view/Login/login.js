@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {lDrug} from '../../assets/img';
-import axios from 'axios';
 import {UserConsumer} from '../../context/context';
+import axios from '../../API/axios';
 
 const Login = ({navigation}) => {
   const optionContext = UserConsumer();
@@ -21,11 +21,10 @@ const Login = ({navigation}) => {
   const {setToken} = optionContext
   const [uname, setUname] = useState('');
   const [pass, setPass] = useState('');
-  const baseUrl = 'http://10.0.2.2:8080/auth/api/login';
   const btnSubmit = () => {
     console.log('test', uname);
     axios
-      .post(baseUrl, {
+      .post('/auth/api/login', {
         username: uname,
         password: pass,
       })

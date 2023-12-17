@@ -7,8 +7,8 @@ import {
   Pressable,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
 import {UserConsumer} from '../../context/context';
+import axios from '../../API/axios';
 
 const Directory = ({navigation}) => {
   const optionContext = UserConsumer();
@@ -16,12 +16,10 @@ const Directory = ({navigation}) => {
   console.log('option', option);
   const [drugs, setDrugs] = useState([]);
   const [id, setId] = useState('0');
-  const baseUrl = 'http://10.0.2.2:8080/drugs';
   const arr = [];
-  const loop = [];
 
   useEffect(() => {
-    axios.get(baseUrl).then(res => {
+    axios.get('/drugs').then(res => {
       arr.push(...res.data);
 
       for (let i = 0; i < arr.length; i++) {
