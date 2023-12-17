@@ -7,28 +7,69 @@ import {
   TextInput,
   Button,
   Pressable,
+  ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {lDrug} from '../../assets/img';
+import axios from 'axios';
+import {UserConsumer} from '../../context/context';
 
 const Login = ({navigation}) => {
+  const optionContext = UserConsumer();
+  const {setUsername} = optionContext;
+  const {setId} = optionContext
+  const {setToken} = optionContext
+  const [uname, setUname] = useState('');
+  const [pass, setPass] = useState('');
+  const baseUrl = 'http://10.0.2.2:8080/auth/api/login';
+  const btnSubmit = () => {
+    console.log('test', uname);
+    axios
+      .post(baseUrl, {
+        username: uname,
+        password: pass,
+      })
+      .then(res => {
+        const success = res.data?.success
+        if(success){
+          setId(res.data.currUser)
+          setUsername(res.data.username);
+          setToken(res.data.token)
+          navigation.navigate('Home');
+          setUname('')
+          setPass('')
+        }else{
+          console.log('Username atau Password salah')
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
   return (
-    <View style={styles.app}>
+    <ScrollView style={styles.app}>
       <View style={styles.container}>
-        <Image source={lDrug} style={styles.logo} />
+        <View style={styles.conImg}>
+          <Image source={lDrug} style={styles.logo} />
+        </View>
         <SafeAreaView style={styles.form}>
           <Text style={styles.labelInput}>Username</Text>
-          <TextInput style={styles.input} placeholder="Username" />
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            onChangeText={e => setUname(e)}
+            value={uname}
+          />
           <Text style={styles.labelInput}>Password</Text>
           <TextInput
             style={styles.input}
             placeholder="Password"
+            onChangeText={e => setPass(e)}
+            value={pass}
             secureTextEntry={true}
           />
-          <View style={styles.conBtn}>
-            <Pressable
-              style={styles.btnLogin}
-              onPress={() => navigation.navigate('Home')}>
+          <View style={styles.conBtnlog}>
+            <Pressable style={styles.btnLogin} onPress={() => btnSubmit()}>
               <Text style={styles.labelLogin}>Login</Text>
             </Pressable>
           </View>
@@ -45,7 +86,7 @@ const Login = ({navigation}) => {
       <View style={styles.footer}>
         <Text style={styles.labelFooter}>© Copyright 2023</Text>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -54,13 +95,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    padding: 30,
+    paddingHorizontal: 30,
+    paddingTop: 0,
   },
   logo: {
-    width: 300,
-    height: 150,
-    marginRight: '10%',
-    marginBottom: 20,
+    width: 200,
+    height: 100,
     resizeMode: 'contain',
   },
   form: {
@@ -79,11 +119,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderColor: '#45B3E6',
   },
-  conBtn: {
+  conBtnlog: {
     alignItems: 'center',
   },
+  conBtn: {
+    alignItems: 'center',
+    paddingBottom: 25,
+  },
   btnLogin: {
-    marginTop: 40,
     borderRadius: 15,
     backgroundColor: '#45B3E6',
     height: 50,
@@ -120,6 +163,17 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  conImg:{
+    backgroundColor: '#45B3E6',
+    width: 150,
+    height: 150,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 100,
+    marginTop: 20,
+    alignSelf: 'center'
+  }
 });
 
 export default Login;
