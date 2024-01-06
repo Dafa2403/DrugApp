@@ -13,6 +13,7 @@ export const UserProvider = ({children}) => {
   const [email, setEmail] = useState('');
   const [id, setId] = useState(null)
   const [token, setToken] = useState(null)
+  const [img, setImg] = useState('')
   return (
     <UserOption.Provider
       value={{
@@ -27,7 +28,9 @@ export const UserProvider = ({children}) => {
         id,
         setId,
         token,
-        setToken
+        setToken,
+        img,
+        setImg
       }}>
       {children}
     </UserOption.Provider>

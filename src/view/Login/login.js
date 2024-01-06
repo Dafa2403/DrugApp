@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -5,46 +6,45 @@ import {
   StyleSheet,
   SafeAreaView,
   TextInput,
-  Button,
   Pressable,
   ScrollView,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
-import {lDrug} from '../../assets/img';
-import {UserConsumer} from '../../context/context';
+import { lDrug } from '../../assets/img';
+import { UserConsumer } from '../../context/context';
 import axios from '../../API/axios';
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   const optionContext = UserConsumer();
-  const {setUsername} = optionContext;
-  const {setId} = optionContext
-  const {setToken} = optionContext
+  const { setUsername, setId, setToken, setImg } = optionContext;
   const [uname, setUname] = useState('');
   const [pass, setPass] = useState('');
+
   const btnSubmit = () => {
-    console.log('test', uname);
     axios
       .post('/auth/api/login', {
         username: uname,
         password: pass,
       })
-      .then(res => {
-        const success = res.data?.success
-        if(success){
-          setId(res.data.currUser)
+      .then((res) => {
+        const success = res.data?.success;
+        if (success) {
+          setId(res.data.currUser);
           setUsername(res.data.username);
-          setToken(res.data.token)
+          setToken(res.data.token);
+          setImg(res.data.imgProfile);
+          setUname('');
+          setPass('');
           navigation.navigate('Home');
-          setUname('')
-          setPass('')
-        }else{
-          console.log('Username atau Password salah')
+        } else {
+          Alert.alert('Login Failed', 'Username atau Password salah');
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
+
   return (
     <ScrollView style={styles.app}>
       <View style={styles.container}>
@@ -56,14 +56,14 @@ const Login = ({navigation}) => {
           <TextInput
             style={styles.input}
             placeholder="Username"
-            onChangeText={e => setUname(e)}
+            onChangeText={(e) => setUname(e)}
             value={uname}
           />
           <Text style={styles.labelInput}>Password</Text>
           <TextInput
             style={styles.input}
             placeholder="Password"
-            onChangeText={e => setPass(e)}
+            onChangeText={(e) => setPass(e)}
             value={pass}
             secureTextEntry={true}
           />
@@ -92,13 +92,14 @@ const Login = ({navigation}) => {
 const styles = StyleSheet.create({
   app: {
     flex: 1,
+    backgroundColor: '#f4f4f4',
   },
   container: {
     paddingHorizontal: 30,
-    paddingTop: 0,
+    paddingTop: 20,
   },
   logo: {
-    width: 200,
+    width: 100,
     height: 100,
     resizeMode: 'contain',
   },
@@ -109,21 +110,23 @@ const styles = StyleSheet.create({
   labelInput: {
     fontSize: 18,
     color: '#000',
+    marginBottom: 5,
   },
   input: {
     borderWidth: 2,
     borderRadius: 15,
-    marginTop: 20,
+    marginTop: 5,
     paddingLeft: 20,
-    marginBottom: 20,
+    marginBottom: 15,
     borderColor: '#45B3E6',
+    backgroundColor: '#fff',
   },
   conBtnlog: {
     alignItems: 'center',
   },
   conBtn: {
     alignItems: 'center',
-    paddingBottom: 25,
+    marginTop: 20,
   },
   btnLogin: {
     borderRadius: 15,
@@ -139,7 +142,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   btnSigUp: {
-    marginTop: 40,
+    marginTop: 20,
     borderRadius: 15,
     backgroundColor: '#40B246',
     height: 50,
@@ -157,22 +160,24 @@ const styles = StyleSheet.create({
     padding: 20,
     width: '100%',
     justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 15
   },
   labelFooter: {
     color: '#fff',
     fontWeight: 'bold',
   },
-  conImg:{
+  conImg: {
     backgroundColor: '#45B3E6',
     width: 150,
     height: 150,
-    display: 'flex',
-    alignItems: 'center',
+    alignSelf: 'center',
     justifyContent: 'center',
-    borderRadius: 100,
+    alignItems: 'center',
+    borderRadius: 75,
     marginTop: 20,
-    alignSelf: 'center'
-  }
+    marginBottom: 20,
+  },
 });
 
 export default Login;

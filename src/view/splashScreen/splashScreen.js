@@ -1,4 +1,4 @@
-import {View, Image, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet, ActivityIndicator} from 'react-native';
 import React from 'react';
 import {lSplash} from '../../assets/img';
 import {iCircle} from '../../assets/img';
@@ -12,7 +12,8 @@ const SplashScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Image source={lSplash} style={styles.logo} />
-      <Image source={iCircle} style={styles.ilustrasi} />
+      {/* <Image source={iCircle} style={styles.ilustrasi} /> */}
+      <ActivityIndicator size="large" color={'#ffffff'}/>
     </View>
   );
 };

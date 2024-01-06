@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,22 +8,16 @@ import {
   Pressable,
   ImageBackground,
 } from 'react-native';
-import React, {useState} from 'react';
-import {lBg} from '../../assets/img';
+import { lBg } from '../../assets/img';
 import axios from '../../API/axios';
 
-const Signup = ({navigation}) => {
+const Signup = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [nama, setNama] = useState('');
   const [uname, setUname] = useState('');
   const [pass, setPass] = useState('');
 
   const btnSubmit = () => {
-    console.log('test', uname);
-    console.log('test', nama);
-    console.log('test', email);
-    console.log('test', pass);
-
     axios
       .post('/auth/api/register', {
         name: nama,
@@ -30,44 +25,44 @@ const Signup = ({navigation}) => {
         email: email,
         password: pass,
       })
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
         navigation.navigate('Login');
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
+
   return (
     <View style={styles.app}>
-      {/* <ImageBackground style={styles.bgImage} source={lBg}></ImageBackground> */}
       <View style={styles.container}>
         <SafeAreaView style={styles.form}>
           <Text style={styles.labelInput}>Email</Text>
           <TextInput
             style={styles.input}
             placeholder="Email"
-            onChangeText={e => setEmail(e)}
+            onChangeText={(e) => setEmail(e)}
             value={email}
           />
           <Text style={styles.labelInput}>Nama</Text>
           <TextInput
             style={styles.input}
             placeholder="Nama"
-            onChange={e => setNama(e)}
+            onChangeText={(e) => setNama(e)}
             value={nama}
           />
           <Text style={styles.labelInput}>Username</Text>
           <TextInput
             style={styles.input}
             placeholder="Username"
-            onChange={e => setUname(e)}
+            onChangeText={(e) => setUname(e)}
             value={uname}
           />
           <Text style={styles.labelInput}>Password</Text>
           <TextInput
             style={styles.input}
-            onChangeText={e => setPass(e)}
+            onChangeText={(e) => setPass(e)}
             value={pass}
             placeholder="Password"
             secureTextEntry={true}
@@ -85,29 +80,19 @@ const Signup = ({navigation}) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   app: {
     flex: 1,
-    height: '100%',
-    backgroundColor: '#ffff',
-    // justifyContent: 'center',
+    backgroundColor: '#ffffff',
   },
-  //   bgImage: {
-  //     width: '50%',
-  //     height: '50%',
-  //     left: 0,
-  //     right: 0,
-  //     margin: 'auto',
-  //     marginRight: '10%',
-  //     marginBottom: 20,
-  //     resizeMode: 'contain',
-  //     justifyContent: 'center',
-  //     position: 'absolute',
-  //   },
   container: {
+    flex: 1,
     padding: 30,
+    justifyContent: 'center',
   },
   form: {
+    flex: 1,
     justifyContent: 'center',
   },
   labelInput: {
@@ -118,7 +103,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
-    width: 300,
     height: 40,
     borderWidth: 1,
     borderColor: '#45B3E6',
@@ -129,11 +113,10 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   conBtn: {
-    width: 300,
-    height: 40,
+    alignItems: 'center',
   },
   btnSignup: {
-    width: 300,
+    width: '100%',
     height: 40,
     backgroundColor: '#40B246',
     borderRadius: 10,
