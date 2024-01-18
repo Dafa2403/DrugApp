@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const BASE_URL = "http://10.0.2.2:8080";
+// const BASE_URL = "http://10.0.2.2:8080";
+const BASE_URL = "http://195.35.9.182:8080"; //public
+
 
 const cancelToken = axios.CancelToken.source();
 
